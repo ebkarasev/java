@@ -1,0 +1,70 @@
+package com.company;
+import java.util.Scanner;
+import java.util.Random;
+class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        System.out.print("Введите n: ");
+        int n = in.nextInt();
+        if ( n <= 1 ) 
+            System.err.println("Недопустимое значение n (требуется: n > 1");
+            System.exit( 1 );
+        }
+        int[][] a = new int [n][n];
+        int[][] f = new int [n][n];
+        Random rnd = new Random();
+        rnd.setSeed( System.currentTimeMillis() );
+        int min = n;
+        int indexI = 0, indexJ = 0;
+        System.out.println("Исходные значения: ");
+        for (int i = 1; i < n; i++) {
+            for (int j = 1; j < n; j++) {
+                int temp = rnd.nextInt();
+                a[i][j] = temp % (n + 1);
+                System.out.print(a[i][j] + "  ");
+                if (a[i][j] <= min) {
+                    min = a[i][j];
+                    indexI = i;
+                    indexJ = j;
+                }
+            }
+            System.out.println();
+        }
+        System.out.println();
+        System.out.println("Минимальный элемент: ["+indexI+"]["+indexJ+"]: " + min );
+        System.out.println();
+        System.out.print("Введите индекс I = ");
+        int newI = in.nextInt();
+        System.out.print("Введите индекс J = ");
+        int newJ = in.nextInt();
+        in.close();
+        if (newI >= n || newI < 0 ||
+                newJ < 0 || newJ >=n ) {
+            System.err.println("Индекс находится вне диапазона");
+            System.exit(1);
+        }
+        if (indexJ != newJ) {
+            for (int i = 0; i < n; i++) {
+                int temp = a[i][indexJ];
+                a[i][indexJ] = a[i][newJ];
+                a[i][newJ] = temp;
+            }
+        }
+        if (indexI != newI) {
+            int [] temp = a[newI];
+            a[newI] = a[indexI];
+            a[indexI] = temp;
+        }
+        System.out.println();
+        System.out.println("Полученная матрица: ");
+        for (int i = 1; i < n; i++) {
+            for (int j = 1; j<n; j++) {
+                System.out.print(a[i][j] + "  ");
+            }
+            System.out.println();
+        }
+        System.exit(0);
+    }
+}
+
+
